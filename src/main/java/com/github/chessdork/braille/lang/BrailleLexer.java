@@ -1,45 +1,42 @@
 package com.github.chessdork.braille.lang;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 public class BrailleLexer {
 	private String input;
 	private int index;
 	private State state;
-	private Queue<Character> queue;
-	
+			
 	public BrailleLexer(String input) {
 		if (input == null) {
 			throw new IllegalArgumentException("BrailleLexer input may not be null");
 		}
 		this.input = input;
 		this.index = 0;
-		this.queue = new LinkedList<>();
+	}
+	
+	public boolean hasMoreTokens() {
+		return index < input.length();
 	}
 	
 	public String nextToken() {
-		if (index >= input.length() && queue.isEmpty()) {
+		if (!hasMoreTokens()) {
 			return null;
 		}
-		String token = "";
-		char c;
-		
 		setState(State.INITIAL);
 		
-		while (!queue.isEmpty() && state != State.TOKEN_COMPLETED) {
-			c = queue.poll();
-			setState(state.nextState(c));
-			token += c;
-		}
+		// ensure we append at least one character
+		char c = input.charAt(index++);
+		String token = "" + c;
+		setState(state.nextState(c));
+		Queue<Character> queue = new LinkedList<>();
 		
 		while (state != State.TOKEN_COMPLETED && index < input.length()) {
 			c = input.charAt(index++);
 			setState(state.nextState(c));
+			// if we reach an auto-append state, all characters that were previously
+			// indeterminate should be added to the current token.
 			if (state.isAutoAppend()) {
 				while (!queue.isEmpty()) {
 					token += queue.poll();
@@ -49,11 +46,13 @@ public class BrailleLexer {
 				queue.add(c);
 			}
 		}
-		System.out.println(token);
+		// revisit any characters that were formerly indeterminate and are not
+		// part of the token.
+		index -= queue.size();
 		return token;
 	}
 	
-	public void setState(State newState) {
+	protected void setState(State newState) {
 		this.state = newState;
 	}
 	
@@ -67,17 +66,19 @@ public class BrailleLexer {
 					return NUMERIC_INDETERMINATE;
 				} else if (c == ' ') {
 					return TOKEN_COMPLETED;
-				} else {
-					throw new IllegalStateException();
+				} else if (Character.isLetter(c)) {
+					return ALPHABETIC;
+				} else  {
+					return TOKEN_COMPLETED;
 				}
 			}
 		},
 		NUMERIC(true) {
 			@Override
 			public State nextState(char c) {
-				if (Character.isDigit(c) || c == ',' || c == '.') {
+				if (Character.isDigit(c)) {
 					return NUMERIC;
-				} else if (c == ' ') {
+				} else if (c == ' ' || c == ',' || c == '.') {
 					return NUMERIC_INDETERMINATE;
 				} else {
 					return TOKEN_COMPLETED;
@@ -89,6 +90,16 @@ public class BrailleLexer {
 			public State nextState(char c) {
 				if (Character.isDigit(c)) {
 					return NUMERIC;
+				} else {
+					return TOKEN_COMPLETED;
+				}
+			}
+		},
+		ALPHABETIC(true) {
+			@Override
+			public State nextState(char c) {
+				if (Character.isLetter(c)) {
+					return ALPHABETIC;
 				} else {
 					return TOKEN_COMPLETED;
 				}
