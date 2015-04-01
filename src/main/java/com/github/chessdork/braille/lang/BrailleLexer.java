@@ -20,28 +20,34 @@ public class BrailleLexer {
 		return index < input.length();
 	}
 	
-	public String nextToken() {
+	public BrailleToken nextToken() {
 		if (!hasMoreTokens()) {
 			return null;
 		}
 		setState(State.INITIAL);
+		TokenType type = state.getTokenType();
+		Queue<Character> queue = new LinkedList<>();
 		
 		// ensure we append at least one character
 		char c = input.charAt(index++);
-		String token = "" + c;
+		String tokenContent = "" + c;
 		setState(state.nextState(c));
-		Queue<Character> queue = new LinkedList<>();
+		
+		// because token type-determining states are disjoint, the correct token type
+		// is simply the last visited state with a token type other than NONE.
+		type = (state.getTokenType() != TokenType.NONE ? state.getTokenType() : type);
 		
 		while (state != State.TOKEN_COMPLETED && index < input.length()) {
 			c = input.charAt(index++);
 			setState(state.nextState(c));
+			type = (state.getTokenType() != TokenType.NONE ? state.getTokenType() : type);
 			// if we reach an auto-append state, all characters that were previously
 			// indeterminate should be added to the current token.
 			if (state.isAutoAppend()) {
 				while (!queue.isEmpty()) {
-					token += queue.poll();
+					tokenContent += queue.poll();
 				}
-				token += c;
+				tokenContent += c;
 			} else {
 				queue.add(c);
 			}
@@ -49,7 +55,7 @@ public class BrailleLexer {
 		// revisit any characters that were formerly indeterminate and are not
 		// part of the token.
 		index -= queue.size();
-		return token;
+		return new BrailleToken(tokenContent, type);
 	}
 	
 	protected void setState(State newState) {
@@ -57,7 +63,7 @@ public class BrailleLexer {
 	}
 	
 	protected enum State {
-		INITIAL(true) {
+		INITIAL(true, TokenType.SYMBOLIC) {
 			@Override
 			public State nextState(char c) {
 				if (Character.isDigit(c)) {
@@ -73,7 +79,7 @@ public class BrailleLexer {
 				}
 			}
 		},
-		NUMERIC(true) {
+		NUMERIC(true, TokenType.NUMERIC) {
 			@Override
 			public State nextState(char c) {
 				if (Character.isDigit(c)) {
@@ -85,7 +91,7 @@ public class BrailleLexer {
 				}
 			}
 		},
-		NUMERIC_INDETERMINATE(false) {
+		NUMERIC_INDETERMINATE(false, TokenType.NONE) {
 			@Override
 			public State nextState(char c) {
 				if (Character.isDigit(c)) {
@@ -95,7 +101,7 @@ public class BrailleLexer {
 				}
 			}
 		},
-		ALPHABETIC(true) {
+		ALPHABETIC(true, TokenType.ALPHABETIC) {
 			@Override
 			public State nextState(char c) {
 				if (Character.isLetter(c)) {
@@ -105,7 +111,7 @@ public class BrailleLexer {
 				}
 			}
 		},
-		TOKEN_COMPLETED(false) {
+		TOKEN_COMPLETED(false, TokenType.NONE) {
 			@Override
 			public State nextState(char c) {
 				return INITIAL;
@@ -113,13 +119,19 @@ public class BrailleLexer {
 		};
 		
 		private final boolean autoAppend;
+		private final TokenType type;
 		
-		State(boolean autoAppend) {
+		State(boolean autoAppend, TokenType type) {
 			this.autoAppend = autoAppend;
+			this.type = type;
 		}
 
 		public boolean isAutoAppend() {
 			return autoAppend;
+		}
+		
+		public TokenType getTokenType() {
+			return type;
 		}
 		
 		public abstract State nextState(char c);
