@@ -9,6 +9,13 @@ import org.junit.Test;
 
 import com.github.chessdork.braille.lang.BrailleLexer;
 
+/**
+ * Ignores UEB 6.4.1.  It is assumed that having numbers immediately follow
+ * a hard stop is a grammatical error in the original text.
+ * 
+ * @author Michael Nguyen
+ *
+ */
 public class BrailleLexerTest {
 
 	@Test
@@ -98,6 +105,60 @@ public class BrailleLexerTest {
 	public void testUEB_6_2_1_15() {
 		BrailleLexer lexer = new BrailleLexer("5⅜");
 		assertArrayEquals(getAllTokens(lexer), new String[] {"5", "⅜"});
+	}
+	
+	@Test
+	public void testUEB_6_3_1_1() {
+		BrailleLexer lexer = new BrailleLexer("7:30 a.m.");
+		assertArrayEquals(getAllTokens(lexer), new String[] {"7", ":", "30", " ", "a", ".", "m", "."});
+	}
+
+	@Test
+	public void testUEB_6_3_1_2() {
+		BrailleLexer lexer = new BrailleLexer("10:12:2009");
+		assertArrayEquals(getAllTokens(lexer), new String[] {"10", ":", "12", ":", "2009"});
+	}
+	
+	@Test
+	public void testUEB_6_3_1_5() {
+		BrailleLexer lexer = new BrailleLexer("2.5-5");
+		assertArrayEquals(getAllTokens(lexer), new String[] {"2.5", "-", "5"});
+	}
+	
+	@Test
+	public void testUEB_6_3_1_8() {
+		BrailleLexer lexer = new BrailleLexer("7−5 = 2");
+		assertArrayEquals(getAllTokens(lexer), new String[] {"7", "−", "5", " ", "=", " ", "2"});
+	} 
+	
+	@Test
+	public void testUEB_6_3_1_15() {
+		BrailleLexer lexer = new BrailleLexer("7(2)");
+		assertArrayEquals(getAllTokens(lexer), new String[] {"7", "(", "2", ")"});
+	}
+	
+	@Test
+	public void testUEB_6_5_2_3() {
+		BrailleLexer lexer = new BrailleLexer("3B");
+		assertArrayEquals(getAllTokens(lexer), new String[] {"3", "B"});
+	}
+	
+	@Test
+	public void testUEB_6_5_2_7() {
+		BrailleLexer lexer = new BrailleLexer("4.B");
+		assertArrayEquals(getAllTokens(lexer), new String[] {"4", ".", "B"});
+	}
+	
+	@Test
+	public void testUEB_6_5_2_8() {
+		BrailleLexer lexer = new BrailleLexer("report3.xls");
+		assertArrayEquals(getAllTokens(lexer), new String[] {"report", "3", ".", "xls"});
+	}
+	
+	@Test
+	public void testUEB_6_6_1_3() {
+		BrailleLexer lexer = new BrailleLexer("phone: (61) 3 1234 5678");
+		assertArrayEquals(getAllTokens(lexer), new String[] {"phone", ":", " ", "(", "61", ")", " ", "3 1234 5678"});
 	}
 	
 	@Test
