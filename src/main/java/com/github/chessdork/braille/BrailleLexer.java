@@ -96,6 +96,8 @@ public class BrailleLexer {
 			public State nextState(char c) {
 				if (Character.isDigit(c)) {
 					return NUMERIC;
+				} else if (c == '.') {
+					return NUMERIC_INDETERMINATE;
 				} else {
 					return TOKEN_COMPLETED;
 				}
