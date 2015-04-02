@@ -1,4 +1,4 @@
-package com.github.chessdork.braille.lang;
+package com.github.chessdork.braille;
 
 import static org.junit.Assert.*;
 
@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.github.chessdork.braille.lang.BrailleLexer;
+import com.github.chessdork.braille.BrailleLexer;
+import com.github.chessdork.braille.BrailleToken;
+import com.github.chessdork.braille.TokenType;
 
 /**
  * Ignores UEB 6.4.1.  It is assumed that having numbers immediately follow

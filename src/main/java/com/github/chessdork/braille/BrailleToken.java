@@ -1,4 +1,4 @@
-package com.github.chessdork.braille.lang;
+package com.github.chessdork.braille;
 
 public class BrailleToken {
 	private final String content;
@@ -7,6 +7,14 @@ public class BrailleToken {
 	public BrailleToken(String content, TokenType type) {
 		this.content = content;
 		this.type = type;
+	}
+	
+	public String getContent() {
+		return content;
+	}
+	
+	public TokenType getTokenType() {
+		return type;
 	}
 	
 	@Override

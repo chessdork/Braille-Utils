@@ -1,4 +1,4 @@
-package com.github.chessdork.braille.lang;
+package com.github.chessdork.braille;
 
 public enum TokenType {
 	ALPHABETIC, NUMERIC, SYMBOLIC, NONE;

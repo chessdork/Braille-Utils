@@ -1,4 +1,4 @@
-package com.github.chessdork.braille.lang;
+package com.github.chessdork.braille;
 
 import java.util.LinkedList;
 import java.util.Queue;
