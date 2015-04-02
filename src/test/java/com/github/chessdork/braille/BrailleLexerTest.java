@@ -24,101 +24,103 @@ public class BrailleLexerTest {
 	public void testUEB_6_2_1_1() {
 		BrailleLexer lexer = new BrailleLexer("62");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken("62", TokenType.NUMERIC));
+		assertEquals(new BrailleToken("62", TokenType.NUMERIC), token);
 	}
 	
 	@Test
 	public void testUEB_6_2_1_2() {
 		BrailleLexer lexer = new BrailleLexer("1959");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken("1959", TokenType.NUMERIC));
+		assertEquals(new BrailleToken("1959", TokenType.NUMERIC), token);
 	}
 	
 	@Test
 	public void testUEB_6_2_1_3() {
 		BrailleLexer lexer = new BrailleLexer("3,500");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken("3,500", TokenType.NUMERIC));
+		assertEquals(new BrailleToken("3,500", TokenType.NUMERIC), token);
 	}
 	
 	@Test
 	public void testUEB_6_2_1_4() {
 		BrailleLexer lexer = new BrailleLexer("8.93");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken("8.93", TokenType.NUMERIC));
+		assertEquals(new BrailleToken("8.93", TokenType.NUMERIC), token);
 	}
 	
 	@Test
 	public void testUEB_6_2_1_5() {
 		BrailleLexer lexer = new BrailleLexer(".7");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken(".7", TokenType.NUMERIC));
+		assertEquals(new BrailleToken(".7", TokenType.NUMERIC), token);
 	}
 	
 	@Test
 	public void testUEB_6_2_1_6() {
 		BrailleLexer lexer = new BrailleLexer("0.7");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken("0.7", TokenType.NUMERIC));
+		assertEquals(new BrailleToken("0.7", TokenType.NUMERIC), token);
 	}
 	
 	@Test
 	public void testUEB_6_2_1_7() {
 		BrailleLexer lexer = new BrailleLexer("8,93");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken("8,93", TokenType.NUMERIC));
+		assertEquals(new BrailleToken("8,93", TokenType.NUMERIC), token);
 	}
 
 	@Test
 	public void testUEB_6_2_1_8() {
 		BrailleLexer lexer = new BrailleLexer(",7");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken(",7", TokenType.NUMERIC));
+		assertEquals(new BrailleToken(",7", TokenType.NUMERIC), token);
 	}
 	
 	@Test
 	public void testUEB_6_2_1_9() {
 		BrailleLexer lexer = new BrailleLexer("0,7");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken("0,7", TokenType.NUMERIC));
+		assertEquals(new BrailleToken("0,7", TokenType.NUMERIC), token);
 	}
 	
 	@Test
 	public void testUEB_6_2_1_10() {
 		BrailleLexer lexer = new BrailleLexer("par. 4.2.2");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("par", TokenType.ALPHABETIC),
 			new BrailleToken(".", TokenType.SYMBOLIC),
 			new BrailleToken (" ", TokenType.SYMBOLIC),
-			new BrailleToken ("4.2.2", TokenType.NUMERIC)});
+			new BrailleToken ("4.2.2", TokenType.NUMERIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testUEB_6_2_1_11() {
 		BrailleLexer lexer = new BrailleLexer("4 500 000");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken("4 500 000", TokenType.NUMERIC));
+		assertEquals(new BrailleToken("4 500 000", TokenType.NUMERIC), token);
 	}
 
 	@Test
 	public void testUEB_6_2_1_14() {
 		BrailleLexer lexer = new BrailleLexer("⅜");
 		BrailleToken token = lexer.nextToken();
-		assertEquals(token, new BrailleToken("⅜", TokenType.SYMBOLIC));
+		assertEquals(new BrailleToken("⅜", TokenType.SYMBOLIC), token);
 	}
 	
 	@Test
 	public void testUEB_6_2_1_15() {
 		BrailleLexer lexer = new BrailleLexer("5⅜");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("5", TokenType.NUMERIC),
-			new BrailleToken("⅜", TokenType.SYMBOLIC)});
+			new BrailleToken("⅜", TokenType.SYMBOLIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testUEB_6_3_1_1() {
 		BrailleLexer lexer = new BrailleLexer("7:30 a.m.");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("7", TokenType.NUMERIC),
 			new BrailleToken(":", TokenType.SYMBOLIC),
 			new BrailleToken("30", TokenType.NUMERIC), 
@@ -126,83 +128,91 @@ public class BrailleLexerTest {
 			new BrailleToken("a", TokenType.ALPHABETIC),
 			new BrailleToken(".", TokenType.SYMBOLIC), 
 			new BrailleToken("m", TokenType.ALPHABETIC),
-			new BrailleToken(".", TokenType.SYMBOLIC)});
+			new BrailleToken(".", TokenType.SYMBOLIC)},
+			getAllTokens(lexer));
 	}
 
 	@Test
 	public void testUEB_6_3_1_2() {
 		BrailleLexer lexer = new BrailleLexer("10:12:2009");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("10", TokenType.NUMERIC), 
 			new BrailleToken(":", TokenType.SYMBOLIC),
 			new BrailleToken("12", TokenType.NUMERIC),
 			new BrailleToken(":", TokenType.SYMBOLIC),
-			new BrailleToken("2009", TokenType.NUMERIC)});
+			new BrailleToken("2009", TokenType.NUMERIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testUEB_6_3_1_5() {
 		BrailleLexer lexer = new BrailleLexer("2.5-5");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("2.5", TokenType.NUMERIC), 
 			new BrailleToken("-", TokenType.SYMBOLIC), 
-			new BrailleToken("5", TokenType.NUMERIC)});
+			new BrailleToken("5", TokenType.NUMERIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testUEB_6_3_1_8() {
 		BrailleLexer lexer = new BrailleLexer("7−5 = 2");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("7", TokenType.NUMERIC), 
 			new BrailleToken("−", TokenType.SYMBOLIC),
 			new BrailleToken("5", TokenType.NUMERIC),
 			new BrailleToken(" ", TokenType.SYMBOLIC),
 			new BrailleToken("=", TokenType.SYMBOLIC),
 			new BrailleToken(" ", TokenType.SYMBOLIC),
-			new BrailleToken("2", TokenType.NUMERIC)});
+			new BrailleToken("2", TokenType.NUMERIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testUEB_6_3_1_15() {
 		BrailleLexer lexer = new BrailleLexer("7(2)");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("7", TokenType.NUMERIC), 
 			new BrailleToken("(", TokenType.SYMBOLIC),
 			new BrailleToken("2", TokenType.NUMERIC),
-			new BrailleToken(")", TokenType.SYMBOLIC)});
+			new BrailleToken(")", TokenType.SYMBOLIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testUEB_6_5_2_3() {
 		BrailleLexer lexer = new BrailleLexer("3B");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("3", TokenType.NUMERIC), 
-			new BrailleToken("B", TokenType.ALPHABETIC)});
+			new BrailleToken("B", TokenType.ALPHABETIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testUEB_6_5_2_7() {
 		BrailleLexer lexer = new BrailleLexer("4.B");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("4", TokenType.NUMERIC),
 			new BrailleToken(".", TokenType.SYMBOLIC), 
-			new BrailleToken("B", TokenType.ALPHABETIC)});
+			new BrailleToken("B", TokenType.ALPHABETIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testUEB_6_5_2_8() {
 		BrailleLexer lexer = new BrailleLexer("report3.xls");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("report", TokenType.ALPHABETIC), 
 			new BrailleToken("3", TokenType.NUMERIC), 
 			new BrailleToken(".", TokenType.SYMBOLIC),
-			new BrailleToken("xls", TokenType.ALPHABETIC)});
+			new BrailleToken("xls", TokenType.ALPHABETIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testUEB_6_6_1_3() {
 		BrailleLexer lexer = new BrailleLexer("phone: (61) 3 1234 5678");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("phone", TokenType.ALPHABETIC),
 			new BrailleToken(":", TokenType.SYMBOLIC), 
 			new BrailleToken(" ", TokenType.SYMBOLIC),
@@ -210,24 +220,26 @@ public class BrailleLexerTest {
 			new BrailleToken("61", TokenType.NUMERIC), 
 			new BrailleToken(")", TokenType.SYMBOLIC),
 			new BrailleToken(" ", TokenType.SYMBOLIC), 
-			new BrailleToken("3 1234 5678", TokenType.NUMERIC)});
+			new BrailleToken("3 1234 5678", TokenType.NUMERIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testTrailingSpaces() {
 		BrailleLexer lexer = new BrailleLexer("62    ");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("62", TokenType.NUMERIC),
 			new BrailleToken(" ", TokenType.SYMBOLIC),
 			new BrailleToken(" ", TokenType.SYMBOLIC),
 			new BrailleToken(" ", TokenType.SYMBOLIC),
-			new BrailleToken(" ", TokenType.SYMBOLIC)});
+			new BrailleToken(" ", TokenType.SYMBOLIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
 	public void testNumberListInput() {
 		BrailleLexer lexer = new BrailleLexer("1, 2, and 3");
-		assertArrayEquals(getAllTokens(lexer), new BrailleToken[] {
+		assertArrayEquals(new BrailleToken[] {
 			new BrailleToken("1", TokenType.NUMERIC), 
 			new BrailleToken(",", TokenType.SYMBOLIC),
 			new BrailleToken(" ", TokenType.SYMBOLIC), 
@@ -236,7 +248,8 @@ public class BrailleLexerTest {
 			new BrailleToken(" ", TokenType.SYMBOLIC),
 			new BrailleToken("and", TokenType.ALPHABETIC),
 			new BrailleToken(" ", TokenType.SYMBOLIC),
-			new BrailleToken("3", TokenType.NUMERIC)});
+			new BrailleToken("3", TokenType.NUMERIC)},
+			getAllTokens(lexer));
 	}
 	
 	@Test
