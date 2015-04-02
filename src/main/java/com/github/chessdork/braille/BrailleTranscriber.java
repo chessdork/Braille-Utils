@@ -40,6 +40,9 @@ public abstract class BrailleTranscriber {
 		symbolics.put('•', BrailleUtils.stringFromDots("456","256"));
 		symbolics.put('.', BrailleUtils.cellFromDots("256"));
 		symbolics.put(':', BrailleUtils.cellFromDots("25"));
+		symbolics.put('-', BrailleUtils.cellFromDots("36"));       // hyphen
+		symbolics.put('−', BrailleUtils.stringFromDots("5","36")); // minus sign
+		symbolics.put('—', BrailleUtils.stringFromDots("6","36")); // dash
 		
 		
 		SYMBOLIC_MAP = Collections.unmodifiableMap(symbolics);
@@ -59,16 +62,22 @@ public abstract class BrailleTranscriber {
 		String brailleString = "";
 		
 		for (int i = 0; i < input.length(); i++) {
-			brailleString += SYMBOLIC_MAP.get(input.charAt(i));
+			String transcribedChar = SYMBOLIC_MAP.get(input.charAt(i));
+			brailleString += transcribedChar;
+			setMode(mode.nextMode(transcribedChar));
 		}
 		return brailleString;
 	}
 	
 	public String transcribeNumeric(String input) {
 		String brailleString = BrailleConstants.NUMERIC_INDICATOR;
+		setMode(BrailleMode.NUMERIC);
 		
 		for (int i = 0; i < input.length(); i++) {
-			brailleString += NUMERIC_MAP.get(input.charAt(i));
+			char c = input.charAt(i);
+			String transcribedChar = NUMERIC_MAP.get(c);
+			brailleString += transcribedChar;
+			setMode(mode.nextMode(transcribedChar));
 		}
 		return brailleString;
 	}

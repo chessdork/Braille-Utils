@@ -50,8 +50,23 @@ public class GradeOneTranscriber extends BrailleTranscriber {
 	@Override
 	public String transcribeAlphabetic(String input) {
 		String brailleString = "";
+		int index = 0;
 		
-		for (int index = 0; index < input.length(); index++) {
+		// Per UEB 6.5.2, if we are in numeric mode, a grade 1
+		// indicator is required if a lowercase letter a-j follows
+		// a digit, period, or comma.
+		if (mode == BrailleMode.NUMERIC) {
+			char c = input.charAt(index);
+			if (c >= 'a' && c <= 'j') {
+				brailleString += BrailleConstants.GRADE_ONE_INDICATOR;
+				String transcribedChar = ALPHABETIC_MAP.get(c);
+				brailleString += transcribedChar;
+				index++;
+				setMode(mode.nextMode(transcribedChar));
+			}
+		}
+		
+		while (index < input.length()) {
 			char c = input.charAt(index);
 			if (Character.isUpperCase(c)) {
 				brailleString += BrailleConstants.CAPITAL_INDICATOR;
@@ -60,6 +75,7 @@ public class GradeOneTranscriber extends BrailleTranscriber {
 			// c is ensured to be lower case
 			assert Character.isLowerCase(c);
 			brailleString += ALPHABETIC_MAP.get(c);
+			index++;
 		}
 		return brailleString;
 	}
