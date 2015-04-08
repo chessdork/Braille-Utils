@@ -43,6 +43,7 @@ public abstract class BrailleTranscriber {
 		symbolics.put('-', BrailleUtils.cellFromDots("36"));       // hyphen
 		symbolics.put('−', BrailleUtils.stringFromDots("5","36")); // minus sign
 		symbolics.put('—', BrailleUtils.stringFromDots("6","36")); // dash
+		symbolics.put('!', BrailleUtils.cellFromDots("235"));
 		
 		
 		SYMBOLIC_MAP = Collections.unmodifiableMap(symbolics);

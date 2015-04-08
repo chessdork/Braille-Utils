@@ -43,6 +43,12 @@ public class BrailleCharTest {
 	}
 	
 	@Test
+	public void testUpper() {
+		boolean b = BrailleChar.fromDots("16").isUpper();
+		assertTrue(b);
+	}
+	
+	@Test
 	public void testHasDots() {
 		boolean b = BrailleChar.fromDots("34").hasDots(BrailleChar.DOT_FIVE);
 		assertFalse(b);
@@ -50,6 +56,14 @@ public class BrailleCharTest {
 	
 	@Test
 	public void testMultipleDotMask() {
-		boolean b = BrailleChar.fromDots("45").hasDots(BrailleChar.DOT_FOUR | BrailleChar.DOT_FIVE);
+		BrailleChar c = BrailleChar.fromDots("45");
+		boolean b = c.hasDots(BrailleChar.DOT_FOUR) && c.hasDots(BrailleChar.DOT_FIVE);
+		assertTrue(b);
+	}
+	
+	@Test
+	public void testStrong() {
+		boolean b = BrailleChar.fromDots("16").isStrong();
+		assertTrue(b);
 	}
 }

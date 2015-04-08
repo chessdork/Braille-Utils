@@ -27,7 +27,7 @@ public class GradeOneTranscriber extends BrailleTranscriber {
 		alphabetics.put('h', BrailleUtils.cellFromDots("125"));
 		alphabetics.put('i', BrailleUtils.cellFromDots("24"));
 		alphabetics.put('j', BrailleUtils.cellFromDots("245"));
-		alphabetics.put('k', BrailleUtils.cellFromDots("15"));
+		alphabetics.put('k', BrailleUtils.cellFromDots("13"));
 		alphabetics.put('l', BrailleUtils.cellFromDots("123"));
 		alphabetics.put('m', BrailleUtils.cellFromDots("134"));
 		alphabetics.put('n', BrailleUtils.cellFromDots("1345"));

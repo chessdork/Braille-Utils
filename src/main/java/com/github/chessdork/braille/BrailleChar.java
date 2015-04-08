@@ -80,7 +80,8 @@ public class BrailleChar {
 	}
 	
 	/**
-	 * Returns true if this BrailleChar has the dot(s) specified by the dot mask.
+	 * Returns true if this BrailleChar has at least one of the dots
+	 * specified by the dot mask.
 	 * @param dotMask
 	 * @return true if this BrailleChar has the specified dots
 	 */
@@ -102,6 +103,19 @@ public class BrailleChar {
 	 */
 	public boolean isUpper() {
 		return !isLower();
+	}
+	
+	/**
+	 * Returns true if this BrailleChar has at least: one dot on the left-side,
+	 * one dot on the right-side, one dot on the top-side, and one dot on the
+	 * bottom-side.
+	 * @return true if this BrailleChar is strong
+	 */
+	public boolean isStrong() {
+		return hasDots(DOT_ONE | DOT_TWO | DOT_THREE) &&
+				hasDots(DOT_FOUR | DOT_FIVE | DOT_SIX) &&
+				hasDots(DOT_ONE | DOT_FOUR) &&
+				hasDots(DOT_THREE | DOT_SIX);
 	}
 	
 	/**
@@ -142,7 +156,7 @@ public class BrailleChar {
 	}
 	
 	/**
-	 * Returns a unicode representation of this BrailleChar.
+	 * Returns a Unicode representation of this BrailleChar.
 	 */
 	@Override
 	public String toString() {
